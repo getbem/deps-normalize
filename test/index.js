@@ -36,6 +36,12 @@ describe('constructor', function () {
 describe('blocks', function () {
     it('should support string', function () {
         nomralize('jquery').should.eql([{ block: 'jquery' }]);
+
+        nomralize('b-block__elem').should.eql([{ block: 'b-block', elem: 'elem' }]);
+
+        nomralize('b-block__elem_mod').should.eql([{ block: 'b-block', elem: 'elem', modName: 'mod' }]);
+
+        nomralize('b-block__elem-1_mod-2_modVal-3').should.eql([{ block: 'b-block', elem: 'elem-1', modName: 'mod-2', modVal: 'modVal-3' }]);
     });
 
     it('should support object', function () {

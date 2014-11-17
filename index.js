@@ -1,4 +1,5 @@
 var props = ['block', 'elem', 'modName', 'modVal'];
+var bemRegexp = /^([^_]*)(__)*([^_]*)(_*)([^_]*)(_*)([^_]*)$/;
 
 function extend(target, source) {
     for (var i = 0; i < props.length; i++) {
@@ -9,10 +10,25 @@ function extend(target, source) {
     return target;
 }
 
+function stringToDep(value) {
+    var items, result;
+
+    result = {};
+    items = value.match(bemRegexp);
+
+    props.forEach(function(name, i) {
+        var item = items[i * 2 + 1];
+
+        if (item) result[name] = item;
+    });
+
+    return result;
+}
+
 function normalize(dep) {
     var res = [];
 
-    if (typeof dep === 'string') dep = { block: dep };
+    if (typeof dep === 'string') dep = stringToDep(dep);
 
     if (Object.keys(dep).length === 0) {
         throw new Error(dep + ' is empty deps object');
